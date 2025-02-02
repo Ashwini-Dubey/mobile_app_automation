@@ -1,0 +1,17 @@
+*.png
+*.html
+*.log
+__pycache__/
+/reports
+*.txt
+.DS_Store
+__init__.py
+.env
+node_modules/
+*.xml
+/assets
+.idea/
+.env
+/BeginnerTestFramework_CalculatorApp
+/cmdline-tools
+/platform-tools
