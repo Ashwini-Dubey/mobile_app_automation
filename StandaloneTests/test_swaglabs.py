@@ -81,20 +81,17 @@ class TestSwagLabsApp:
         login_button = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-LOGIN")
         login_button.click()
 
-        try:
-            locked_out_error = WebDriverWait(self.driver_instance, 10).until(
+        expected_error = "Sorry, this user has been locked out."
+        locked_out_error = WebDriverWait(self.driver_instance, 10).until(
                 EC.presence_of_element_located(
                     (AppiumBy.XPATH, "//android.widget.TextView[@text='Sorry, this user has been locked out.']"))
-            )
-            locked_error = locked_out_error.text
-            print(locked_error)
+        )
+        locked_error = locked_out_error.text
 
-            expected_error = "Sorry, this user has been locked out."
 
-            # Assert that the error message matches
-            assert expected_error == locked_error, f"Expected error message '{expected_error}', but got '{locked_error}'"
-        except Exception as e:
-            pytest.fail(f"Error message not found or test failed: {e}")
+        # Assert that the error message matches
+        assert expected_error == locked_error, f"Expected error message '{expected_error}', but got '{locked_error}'"
+
 
 
 
