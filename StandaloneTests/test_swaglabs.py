@@ -40,9 +40,6 @@ def driver(request):
 
     yield driver_instance
 
-    os.system("adb shell pm clear com.swaglabsmobileapp")
-    os.system("adb shell am force-stop com.swaglabsmobileapp")
-
     # Stop recording & quit driver
     driver_instance.stop_recording_screen()
     driver_instance.quit()
@@ -99,6 +96,69 @@ class TestSwagLabsApp:
 
         # Assert that the error message matches
         assert expected_error == locked_error, f"Expected error message '{expected_error}', but got '{locked_error}'"
+
+    def test_e2e_purchaseflow(self):
+        """Verify the app login"""
+        username = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-Username")
+        username.click()
+        username.send_keys("standard_user")
+
+        password = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-Password")
+        password.click()
+        password.send_keys("secret_sauce")
+
+        login_button = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-LOGIN")
+        login_button.click()
+
+        time.sleep(5)
+
+        backpack = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                                  value="new UiSelector().description(\"test-ADD TO CART\").instance(0)")
+        backpack.click()
+        time.sleep(5)
+        #bikelight = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-ADD TO CART")
+        #bikelight.click()
+
+        cart = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                                  value="new UiSelector().className(\"android.widget.ImageView\").instance(3)")
+        cart.click()
+
+        time.sleep(5)
+        checkout = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-CHECKOUT")
+        checkout.click()
+        time.sleep(5)
+        firstname = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-First Name")
+        firstname.send_keys("Ashwini")
+        time.sleep(5)
+        lastname = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-Last Name")
+        lastname.send_keys("Kumar")
+        time.sleep(5)
+        postalcode = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-Zip/Postal Code")
+        postalcode.send_keys("122001")
+
+        self.driver_instance.execute_script('mobile: scroll', {'direction': 'down'})
+
+        continuebutton = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-CONTINUE")
+        continuebutton.click()
+        time.sleep(5)
+        finish = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-FINISH")
+        finish.click()
+        time.sleep(5)
+        successmessage = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                                   value="new UiSelector().text(\"THANK YOU FOR YOU ORDER\")")
+        successmessage.click()
+        time.sleep(5)
+        backhome = self.driver_instance.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="test-BACK HOME")
+        backhome.click()
+        time.sleep(5)
+        side_menu = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR,
+                                   value="new UiSelector().className(\"android.widget.ImageView\").instance(1)")
+        side_menu.click()
+
+        time.sleep(10)
+
+        logout_button = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value="new UiSelector().text(\"LOGOUT\")")
+        logout_button.click()
 
 
 
