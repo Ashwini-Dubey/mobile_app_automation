@@ -1,5 +1,9 @@
-import time
+"""
+This test is for Android Demo Application - Swag Labs with Python-Appium
+"""
 
+import time
+import os
 import pytest
 from appium import webdriver
 from appium.options.common.base import AppiumOptions
@@ -36,6 +40,9 @@ def driver(request):
 
     yield driver_instance
 
+    os.system("adb shell pm clear com.swaglabsmobileapp")
+    os.system("adb shell am force-stop com.swaglabsmobileapp")
+
     # Stop recording & quit driver
     driver_instance.stop_recording_screen()
     driver_instance.quit()
@@ -67,6 +74,7 @@ class TestSwagLabsApp:
 
         logout_button = self.driver_instance.find_element(by=AppiumBy.ANDROID_UIAUTOMATOR, value="new UiSelector().text(\"LOGOUT\")")
         logout_button.click()
+        
 
     def test_invalid_app_login(self):
         """Verify the app login"""

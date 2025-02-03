@@ -17,3 +17,5 @@ node_modules/
 /platform-tools
 /SampleAPKFile
 /SampleIPAFile
+appium_kicker.sh
+chromedriver
