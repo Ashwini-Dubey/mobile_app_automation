@@ -4,6 +4,7 @@ import pytest
 from appium import webdriver
 from appium.options.common.base import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import chromedriver_autoinstaller # Auto-downloads correct ChromeDriver
@@ -56,4 +57,9 @@ class TestSwagLabsApp:
         Open Chrome & Visit Google.
         """
         self.driver_instance.get("https://www.google.com")
+        time.sleep(10)
+        print(self.driver_instance.title)
+        self.driver_instance.find_element(By.XPATH, "//*[@name='q']").send_keys("Hello Appium")
+        time.sleep(10)
+        self.driver_instance.execute_script('mobile: performEditorAction', {'action': 'done'})
         time.sleep(10)
